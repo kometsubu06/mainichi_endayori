@@ -19,6 +19,10 @@ default: &default
 
 development:
   <<: *default
+  adapter: mysql2
+  username: root
+  password:
+  host: localhost
   database: mainichi_endayori_development
 
 # Warning: The database defined as "test" will be erased and
@@ -26,6 +30,10 @@ development:
 # Do not set this db to the same as development or production.
 test:
   <<: *default
+  adapter: mysql2
+  username: root
+  password:
+  host: localhost
   database: mainichi_endayori_test
 
 # As with config/credentials.yml, you never want to store sensitive information,
@@ -53,3 +61,5 @@ production:
   database: mainichi_endayori_production
   username: mainichi_endayori
   password: <%= ENV["MAINICHI_ENDAYORI_DATABASE_PASSWORD"] %>
+  adapter: postgresql
+  url: <%= ENV['DATABASE_URL'] %>
