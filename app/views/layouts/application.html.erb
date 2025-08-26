@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>MainichiEndayori</title>
+    <title>まいにち園だより</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -11,6 +11,14 @@
   </head>
 
   <body>
+    <header>
+    <% if user_signed_in? %>
+      <small>ログイン中：<%= current_user.name.presence || current_user.email %></small>
+      <%= button_to "ログアウト", destroy_user_session_path, method: :delete %>
+    <% else %>
+      <%= link_to "ログイン", new_user_session_path %>
+    <% end %>
+  </header>
     <%= yield %>
   </body>
 </html>

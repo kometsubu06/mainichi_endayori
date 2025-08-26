@@ -1,0 +1,12 @@
+<h1>まいにち園だより｜招待コードで登録</h1>
+
+<%= form_with url: "/invite", method: :post do %>
+  <p>招待コード<br><%= text_field_tag :code, params[:code], required: true %></p>
+  <p>メール<br><%= email_field_tag :email, params[:email], required: true %></p>
+  <p>氏名<br><%= text_field_tag :name, params[:name], required: true %></p>
+  <p>パスワード<br><%= password_field_tag :password, "", required: true, minlength: 6 %></p>
+  <%= submit_tag "登録する" %>
+<% end %>
+
+<% if flash[:alert] %><p style="color:#b00020"><%= flash[:alert] %></p><% end %>
+<% if flash[:notice] %><p style="color:#0a7f20"><%= flash[:notice] %></p><% end %>
