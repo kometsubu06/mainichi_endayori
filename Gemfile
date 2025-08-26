@@ -68,3 +68,7 @@ group :test do
 end
 
 gem "devise"
+
+group :production do
+  gem 'pg'
+end
