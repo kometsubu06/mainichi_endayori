@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_08_27_043938) do
+ActiveRecord::Schema[7.1].define(version: 2025_08_27_084633) do
   create_table "invitations", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "code", null: false
     t.string "email"
@@ -24,6 +24,17 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_27_043938) do
     t.index ["child_id"], name: "index_invitations_on_child_id"
     t.index ["code"], name: "index_invitations_on_code", unique: true
     t.index ["organization_id"], name: "index_invitations_on_organization_id"
+  end
+
+  create_table "notice_reads", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "notice_id", null: false
+    t.datetime "read_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["notice_id"], name: "index_notice_reads_on_notice_id"
+    t.index ["user_id", "notice_id"], name: "index_notice_reads_on_user_id_and_notice_id", unique: true
+    t.index ["user_id"], name: "index_notice_reads_on_user_id"
   end
 
   create_table "notices", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -57,4 +68,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_27_043938) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "notice_reads", "notices"
+  add_foreign_key "notice_reads", "users"
 end

@@ -7,12 +7,19 @@
   <ul>
     <% @notices.each do |n| %>
       <li style="margin:.5rem 0;">
+        <% unread = !@read_ids.include?(n.id) %>
+        <% if unread %>
+          <span style="padding:.1rem .4rem;border:1px solid #b00;color:#b00;border-radius:.4rem;font-size:.8em;margin-right:.4rem;">未読</span>
+        <% end %>
+
         <%= link_to n.title, notice_path(n) %>
+
         <% if n.due_on %>
           <small>（締切: <%= n.due_on %>）</small>
         <% end %>
+
         <% if n.require_submission %>
-          <span style="padding:.1rem .4rem;border:1px solid #999;border-radius:.4rem;font-size:.8em;">提出あり</span>
+          <span style="padding:.1rem .4rem;border:1px solid #999;border-radius:.4rem;font-size:.8em;margin-left:.4rem;">提出あり</span>
         <% end %>
       </li>
     <% end %>
