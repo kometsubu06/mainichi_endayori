@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
-  before_action :basic_auth, if: -> {
-    Rails.env.production? && ENV["BASIC_AUTH_USER"].present? && ENV["BASIC_AUTH_PASSWORD"].present?
-  }
+  before_action :basic_auth #, if: -> {
+    #Rails.env.production? && ENV["BASIC_AUTH_USER"].present? && ENV["BASIC_AUTH_PASSWORD"].present?
+  #}
 
   private
 
