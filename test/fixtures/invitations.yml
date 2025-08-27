@@ -1,0 +1,19 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  code: MyString
+  email: MyString
+  organization_id: 
+  role: 1
+  expires_at: 2025-08-26 15:57:05
+  used_at: 2025-08-26 15:57:05
+  child_id: 
+
+two:
+  code: MyString
+  email: MyString
+  organization_id: 
+  role: 1
+  expires_at: 2025-08-26 15:57:05
+  used_at: 2025-08-26 15:57:05
+  child_id: 

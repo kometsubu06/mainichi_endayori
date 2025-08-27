@@ -26,6 +26,10 @@
 - イベント参加可否（RSVP）  
 - 当日の体調報告・欠席/遅刻連絡  
 
+### 招待コードの発行（ローカル）
+Railsコンソールで以下を実行して code を控え、/invite で入力します。
+
+Invitation.create!(code: SecureRandom.hex(6), expires_at: 3.days.from_now)
 ---
 
 ## 🗄️ データベース設計
