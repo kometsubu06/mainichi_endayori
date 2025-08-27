@@ -10,7 +10,9 @@
 #   https://dev.mysql.com/doc/refman/5.7/en/password-hashing.html
 #
 default: &default
-  adapter: postgresql
+  adapter: mysql2
+  username: root
+  host: localhost
   pool: <%= ENV.fetch("RAILS_MAX_THREADS", 5) %>
 
 development:
@@ -20,6 +22,7 @@ development:
   password:
   host: localhost
   database: mainichi_endayori_development
+  encoding: utf8mb4
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
@@ -31,6 +34,7 @@ test:
   password:
   host: localhost
   database: mainichi_endayori_test
+  encoding: utf8mb4
 
 # As with config/credentials.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
