@@ -1,2 +1,11 @@
-<h1>Notices#show</h1>
-<p>Find me in app/views/notices/show.html.erb</p>
+<!-- app/views/notices/show.html.erb -->
+<p><%= link_to "← お知らせ一覧へ", notices_path %></p>
+<h1><%= @notice.title %></h1>
+
+<p><%= simple_format(@notice.body) %></p>
+
+<p style="margin-top:1rem;">
+  <% if @notice.due_on %>締切：<%= @notice.due_on %><br><% end %>
+  提出の要否：<%= @notice.require_submission ? "必要" : "不要" %><br>
+  掲載日時：<%= @notice.published_at&.strftime("%Y/%m/%d %H:%M") %>
+</p>

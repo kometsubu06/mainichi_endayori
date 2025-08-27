@@ -1,2 +1,20 @@
-<h1>Notices#index</h1>
-<p>Find me in app/views/notices/index.html.erb</p>
+<!-- app/views/notices/index.html.erb -->
+<h1>お知らせ</h1>
+
+<% if @notices.empty? %>
+  <p>現在表示できるお知らせはありません。</p>
+<% else %>
+  <ul>
+    <% @notices.each do |n| %>
+      <li style="margin:.5rem 0;">
+        <%= link_to n.title, notice_path(n) %>
+        <% if n.due_on %>
+          <small>（締切: <%= n.due_on %>）</small>
+        <% end %>
+        <% if n.require_submission %>
+          <span style="padding:.1rem .4rem;border:1px solid #999;border-radius:.4rem;font-size:.8em;">提出あり</span>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+<% end %>

@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   devise_for :users, skip: [:registrations]  # 自己サインアップ禁止
   
   # 招待コード登録
-  get  "/invite", to: "invitations#new"
+  get  "/invite", to: "invitations#new", as: :invite
   post "/invite", to: "invitations#create"
 
   # 仮トップ
