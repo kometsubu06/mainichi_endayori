@@ -20,7 +20,6 @@ class NoticesController < ApplicationController
 
   def show
     @notice = Notice.find(params[:id])
-    NoticeRead.create_with(read_at: Time.current)
-            .find_or_create_by!(user_id: current_user.id, notice_id: @notice.id)
+    @unread = !NoticeRead.exists?(user_id: current_user.id, notice_id: @notice.id)
   end
 end

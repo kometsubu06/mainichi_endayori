@@ -1,0 +1,7 @@
+<!-- app/views/notices/_badge.html.erb -->
+<%# locals: notice:, unread: %>
+<span id="<%= dom_id(notice, :badge) %>"
+      class="badge <%= unread ? 'badge--unread' : 'badge--read' %>"
+      aria-label="<%= unread ? '未読' : '既読' %>">
+  <%= unread ? '未読' : '既読' %>
+</span>

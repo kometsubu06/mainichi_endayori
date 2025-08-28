@@ -1,6 +1,9 @@
 <!-- app/views/notices/show.html.erb -->
 <p><%= link_to "← お知らせ一覧へ", notices_path %></p>
-<h1><%= @notice.title %></h1>
+<h1>
+  <%= @notice.title %>
+  <%= render 'notices/badge', notice: @notice, unread: @unread %>
+</h1>
 
 <p><%= simple_format(@notice.body) %></p>
 
@@ -9,3 +12,17 @@
   提出の要否：<%= @notice.require_submission ? "必要" : "不要" %><br>
   掲載日時：<%= @notice.published_at&.strftime("%Y/%m/%d %H:%M") %>
 </p>
+
+<%# 未読なら「既読にする」ボタンを表示（Turboでバッジだけ置き換え） %>
+<% if @unread %>
+  <div style="margin-top:1rem;">
+    <%= button_to '既読にする',
+          read_notice_path(@notice),
+          method: :post,
+          data: { turbo: true },
+          params: (@notice.has_attribute?(:lock_version) ? { lock_version: @notice.lock_version } : {}),
+          class: 'btn' %>
+  </div>
+<% else %>
+  <p style="margin-top:1rem; color:#666;">このお知らせは既読です。</p>
+<% end %>
