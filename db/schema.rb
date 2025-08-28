@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_08_27_084633) do
+ActiveRecord::Schema[7.1].define(version: 2025_08_28_002801) do
   create_table "invitations", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "code", null: false
     t.string "email"
@@ -33,7 +33,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_27_084633) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["notice_id"], name: "index_notice_reads_on_notice_id"
-    t.index ["user_id", "notice_id"], name: "index_notice_reads_on_user_id_and_notice_id", unique: true
+    t.index ["user_id", "notice_id"], name: "index_notice_reads_on_user_id_and_notice_id_unique", unique: true
     t.index ["user_id"], name: "index_notice_reads_on_user_id"
   end
 

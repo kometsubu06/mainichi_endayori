@@ -16,7 +16,7 @@ class NoticesController < ApplicationController
 
   # ビューで「未読バッジ」を判定できるように既読IDを渡す
   @read_ids = read_ids
-end
+  end
 
   def show
     @notice = Notice.find(params[:id])
