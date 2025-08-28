@@ -13,4 +13,8 @@ Rails.application.routes.draw do
   resources :notices, only: [:index, :show] do
     post :read, to: 'notice_reads#create'  # POST /notices/:notice_id/read
   end
+  resources :notifications, only: [:index] do
+    member     { patch :read }       # /notifications/:id/read
+    collection { patch :read_all }   # /notifications/read_all
+end
 end

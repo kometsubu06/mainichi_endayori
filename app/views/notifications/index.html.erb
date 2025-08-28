@@ -1,0 +1,15 @@
+<!-- app/views/notifications/index.html.erb -->
+<h1>通知</h1>
+
+<div style="margin:.5rem 0;">
+  <%= button_to 'すべて既読にする',
+        read_all_notifications_path,
+        method: :patch,
+        data: { turbo: true } %>
+</div>
+
+<ul id="notifications-list" style="list-style:none;padding:0;">
+  <% @notifications.each do |n| %>
+    <%= render 'notifications/item', notification: n %>
+  <% end %>
+</ul>

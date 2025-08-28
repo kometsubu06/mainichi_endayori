@@ -19,6 +19,14 @@
       <%= link_to "ログイン", new_user_session_path %>
     <% end %>
   </header>
+  <nav style="display:flex;gap:1rem;align-items:center;margin-bottom:1rem;">
+  <% if user_signed_in? %>
+    <%= link_to '通知', notifications_path %>
+    <span id="notification-bell">🔔
+      <span id="notification-count"><%= current_user.notifications.unread.count %></span>
+    </span>
+  <% end %>
+</nav>
     <%= yield %>
   </body>
 </html>

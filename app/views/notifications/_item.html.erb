@@ -1,0 +1,27 @@
+<!-- app/views/notifications/_item.html.erb -->
+<li id="<%= dom_id(notification) %>"
+    style="padding:.6rem;border-bottom:1px solid #eee;display:flex;gap:.5rem;align-items:flex-start;">
+  <span class="badge"
+        style="min-width:3rem;text-align:center;padding:.15rem .4rem;border-radius:.4rem;
+               background:<%= notification.read_at ? '#eef6ff' : '#fce7e7' %>;
+               color:<%= notification.read_at ? '#004a99' : '#b10000' %>;">
+    <%= notification.read_at ? '既読' : '未読' %>
+  </span>
+
+  <div style="flex:1;">
+    <strong><%= notification.title %></strong>
+    <% if notification.body.present? %>
+      <div><%= simple_format(notification.body) %></div>
+    <% end %>
+    <small style="color:#666;"><%= l(notification.created_at, format: :short) %></small>
+  </div>
+
+  <% if notification.read_at.nil? %>
+    <div>
+      <%= button_to '既読にする',
+            read_notification_path(notification),
+            method: :patch,
+            form: { data: { turbo: true } } %>
+    </div>
+  <% end %>
+</li>
