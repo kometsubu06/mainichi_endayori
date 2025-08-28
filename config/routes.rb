@@ -10,5 +10,7 @@ Rails.application.routes.draw do
   root "home#index"
 
   # お知らせ機能（一覧＆詳細）
-  resources :notices, only: [:index, :show]
+  resources :notices, only: [:index, :show] do
+    post :read, to: 'notice_reads#create'  # POST /notices/:notice_id/read
+  end
 end
