@@ -6,11 +6,9 @@
 <% else %>
   <ul>
     <% @notices.each do |n| %>
+      <% unread = !@read_ids.include?(n.id) %>
       <li style="margin:.5rem 0;">
-        <% unread = !@read_ids.include?(n.id) %>
-        <% if unread %>
-          <span style="padding:.1rem .4rem;border:1px solid #b00;color:#b00;border-radius:.4rem;font-size:.8em;margin-right:.4rem;">未読</span>
-        <% end %>
+        <%= render 'notices/badge', notice: n, unread: unread %>
 
         <%= link_to n.title, notice_path(n) %>
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_08_28_002801) do
+ActiveRecord::Schema[7.1].define(version: 2025_08_28_020139) do
   create_table "invitations", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "code", null: false
     t.string "email"
@@ -47,6 +47,21 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_28_002801) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "notifications", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.integer "kind", default: 0, null: false
+    t.string "title", null: false
+    t.text "body"
+    t.json "metadata", null: false
+    t.datetime "read_at"
+    t.datetime "scheduled_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["read_at"], name: "index_notifications_on_read_at"
+    t.index ["user_id", "created_at"], name: "index_notifications_on_user_id_and_created_at"
+    t.index ["user_id"], name: "index_notifications_on_user_id"
+  end
+
   create_table "users", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -70,4 +85,5 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_28_002801) do
 
   add_foreign_key "notice_reads", "notices"
   add_foreign_key "notice_reads", "users"
+  add_foreign_key "notifications", "users"
 end
