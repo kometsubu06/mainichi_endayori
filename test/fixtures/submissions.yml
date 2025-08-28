@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  submission_request: one
+  child: one
+  submitted_by: 
+  submitted_at: 2025-08-28 12:45:29
+  status: 1
+
+two:
+  submission_request: two
+  child: two
+  submitted_by: 
+  submitted_at: 2025-08-28 12:45:29
+  status: 1

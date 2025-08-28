@@ -16,5 +16,8 @@ Rails.application.routes.draw do
   resources :notifications, only: [:index] do
     member     { patch :read }       # /notifications/:id/read
     collection { patch :read_all }   # /notifications/read_all
-end
+  end
+  resources :submissions, only: [:index, :show] do
+    post :mark_done, on: :member  # POST /submissions/:id/mark_done
+  end
 end

@@ -1,6 +1,6 @@
 class Notification < ApplicationRecord
   belongs_to :user
-  enum kind: { unread_digest: 0 }
+  enum kind: { unread_digest: 0, submission_reminder: 1 }
   scope :unread, -> { where(read_at: nil) }
 
   # DBデフォルトを置かない代わりにアプリ側でnilを防ぐ

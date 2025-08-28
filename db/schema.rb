@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_08_28_030708) do
+ActiveRecord::Schema[7.1].define(version: 2025_08_28_061843) do
   create_table "audit_logs", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.string "action", null: false
@@ -23,6 +23,26 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_28_030708) do
     t.index ["notice_id"], name: "index_audit_logs_on_notice_id"
     t.index ["user_id", "occurred_at"], name: "index_audit_logs_on_user_id_and_occurred_at"
     t.index ["user_id"], name: "index_audit_logs_on_user_id"
+  end
+
+  create_table "children", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "name", null: false
+    t.bigint "organization_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["organization_id", "name"], name: "index_children_on_organization_id_and_name"
+    t.index ["organization_id"], name: "index_children_on_organization_id"
+  end
+
+  create_table "guardianships", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "child_id", null: false
+    t.string "relationship", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["child_id"], name: "index_guardianships_on_child_id"
+    t.index ["user_id", "child_id"], name: "index_guardianships_on_user_id_and_child_id", unique: true
+    t.index ["user_id"], name: "index_guardianships_on_user_id"
   end
 
   create_table "invitations", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -86,6 +106,32 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_28_030708) do
     t.index ["name"], name: "index_organizations_on_name"
   end
 
+  create_table "submission_requests", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "title", null: false
+    t.text "description"
+    t.date "due_on"
+    t.integer "status", default: 0, null: false
+    t.bigint "organization_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["organization_id", "due_on"], name: "index_submission_requests_on_organization_id_and_due_on"
+    t.index ["organization_id"], name: "index_submission_requests_on_organization_id"
+  end
+
+  create_table "submissions", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "submission_request_id", null: false
+    t.bigint "child_id", null: false
+    t.bigint "submitted_by"
+    t.datetime "submitted_at"
+    t.integer "status", default: 1, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["child_id"], name: "index_submissions_on_child_id"
+    t.index ["submission_request_id", "child_id"], name: "index_submissions_on_request_and_child", unique: true
+    t.index ["submission_request_id"], name: "index_submissions_on_submission_request_id"
+    t.index ["submitted_by"], name: "fk_rails_f003e9ac4a"
+  end
+
   create_table "users", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -108,8 +154,13 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_28_030708) do
   end
 
   add_foreign_key "audit_logs", "users"
+  add_foreign_key "children", "organizations"
+  add_foreign_key "guardianships", "children"
+  add_foreign_key "guardianships", "users"
   add_foreign_key "notice_reads", "notices"
   add_foreign_key "notice_reads", "users"
   add_foreign_key "notices", "organizations"
   add_foreign_key "notifications", "users"
+  add_foreign_key "submission_requests", "organizations"
+  add_foreign_key "submissions", "users", column: "submitted_by"
 end

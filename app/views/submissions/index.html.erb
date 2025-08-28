@@ -1,0 +1,14 @@
+<!-- app/views/submissions/index.html.erb -->
+<h1>提出依頼</h1>
+<ul>
+  <% @requests.each do |r| %>
+    <% my_done = Submission.exists?(submission_request_id: r.id, child_id: @children_ids) %>
+    <li style="margin:.5rem 0;">
+      <% unless my_done %>
+        <span style="padding:.1rem .4rem;border:1px solid #b00;color:#b00;border-radius:.4rem;font-size:.8em;margin-right:.4rem;">未提出</span>
+      <% end %>
+      <%= link_to r.title, submission_path(r) %>
+      <% if r.due_on %><small>（締切: <%= r.due_on %>）</small><% end %>
+    </li>
+  <% end %>
+</ul>
