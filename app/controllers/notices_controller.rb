@@ -1,5 +1,6 @@
 class NoticesController < ApplicationController
   before_action :authenticate_user!
+  require 'set'
   def index
     base = Notice.where(organization_id: current_user.organization_id)
                  .order(due_on: :asc) # 並び替えはあなたの既存ロジックに合わせてOK
@@ -20,7 +21,24 @@ class NoticesController < ApplicationController
   end
 
   def show
-    @notice = Notice.find(params[:id])
-    @unread = !NoticeRead.exists?(user_id: current_user.id, notice_id: @notice.id)
+    @notice = Notice.where(organization_id: current_user.organization_id).find(params[:id])
+
+  # 既読レコードを作成（なければ）
+    nr = NoticeRead.find_or_create_by(user_id: current_user.id, notice_id: @notice.id) do |r|
+      r.read_at = Time.zone.now
+    end
+
+  # 初回だけ監査ログ
+    if nr.previously_new_record?
+      AuditLog.create!(
+        user: current_user,
+        action: 'notice.read',
+        notice_id: @notice.id,
+        occurred_at: nr.read_at || Time.zone.now,
+        metadata: { via: 'show' }
+      )
+    end
+
+    @unread = false
   end
 end

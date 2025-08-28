@@ -10,7 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_08_28_020139) do
+ActiveRecord::Schema[7.1].define(version: 2025_08_28_030708) do
+  create_table "audit_logs", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "action", null: false
+    t.bigint "notice_id"
+    t.datetime "occurred_at", null: false
+    t.json "metadata"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["action"], name: "index_audit_logs_on_action"
+    t.index ["notice_id"], name: "index_audit_logs_on_notice_id"
+    t.index ["user_id", "occurred_at"], name: "index_audit_logs_on_user_id_and_occurred_at"
+    t.index ["user_id"], name: "index_audit_logs_on_user_id"
+  end
+
   create_table "invitations", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "code", null: false
     t.string "email"
@@ -45,6 +59,9 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_28_020139) do
     t.datetime "published_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "organization_id", null: false
+    t.index ["organization_id", "due_on"], name: "index_notices_on_organization_id_and_due_on"
+    t.index ["organization_id"], name: "index_notices_on_organization_id"
   end
 
   create_table "notifications", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -60,6 +77,13 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_28_020139) do
     t.index ["read_at"], name: "index_notifications_on_read_at"
     t.index ["user_id", "created_at"], name: "index_notifications_on_user_id_and_created_at"
     t.index ["user_id"], name: "index_notifications_on_user_id"
+  end
+
+  create_table "organizations", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_organizations_on_name"
   end
 
   create_table "users", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -83,7 +107,9 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_28_020139) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "audit_logs", "users"
   add_foreign_key "notice_reads", "notices"
   add_foreign_key "notice_reads", "users"
+  add_foreign_key "notices", "organizations"
   add_foreign_key "notifications", "users"
 end

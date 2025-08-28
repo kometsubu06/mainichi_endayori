@@ -7,6 +7,7 @@ class User < ApplicationRecord
   enum role: { guardian: 0, teacher: 1, admin: 9 }, _default: :guardian
 
   belongs_to :organization, optional: true
+  has_many :notifications, dependent: :destroy
   has_many :notice_reads, dependent: :destroy
   has_many :read_notices, through: :notice_reads, source: :notice
 end
