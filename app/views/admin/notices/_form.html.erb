@@ -1,0 +1,10 @@
+<!-- app/views/admin/notices/_form.html.erb -->
+<%= form_with model: [:admin, @notice] do |f| %>
+  <p>タイトル<br><%= f.text_field :title %></p>
+  <p>本文<br><%= f.text_area :body, rows: 8 %></p>
+  <p>締切<br><%= f.date_field :due_on %></p>
+  <p>提出の要否<br><%= f.check_box :require_submission %></p>
+  <p>掲載日時<br><%= f.datetime_field :published_at %></p>
+  <p>ステータス<br><%= f.select :status, [[ '公開', 0 ], [ '非公開', 1 ]] %></p>
+  <p><%= f.submit %></p>
+<% end %>

@@ -20,4 +20,22 @@ Rails.application.routes.draw do
   resources :submissions, only: [:index, :show] do
     post :mark_done, on: :member  # POST /submissions/:id/mark_done
   end
+  # 管理者ページ
+  namespace :admin do
+    root "dashboard#show"
+    resources :notices
+    resources :submission_requests
+  end
+
+  # 保護者側の既存ルート
+  resources :notices, only: [:index, :show]
+  resources :submissions, only: [:index, :show] do
+    post :mark_done, on: :member
+  end
+
+  # 通知（既存）
+  resources :notifications, only: [:index] do
+    member { post :read }
+    collection { post :read_all }
+  end
 end

@@ -1,0 +1,10 @@
+<h1>管理ダッシュボード</h1>
+<p>園：<%= current_user.organization&.name %></p>
+<ul>
+  <li>お知らせ：<%= @notices_count %> 件</li>
+  <li>提出依頼：<%= @requests_count %> 件</li>
+</ul>
+<nav>
+  <%= link_to "お知らせ一覧", admin_notices_path %> /
+  <%= link_to "提出依頼一覧", admin_submission_requests_path %>
+</nav>
