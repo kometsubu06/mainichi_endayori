@@ -1,12 +1,36 @@
-<!-- app/views/home/index.html.erb -->
-<h1>ようこそ、<%= current_user&.email %> さん</h1>
+<div class="dashboard space-y-6">
+  <!-- ヒーロー（上の箱） -->
+  <section class="hero-card">
+    <div class="hero-head">
+      <div class="school"><%= current_user&.organization&.name || "園" %></div>
+      <div class="who">
+        こんにちは、<%= current_user.name.presence || current_user.email %> さん
+      </div>
+    </div>
 
-<ul>
-  <li><%= link_to "お知らせ一覧（準備中）", notices_path %></li>
-  <li><%= link_to "当日チェック（準備中）", "#" %></li>
-  <li><%= link_to "履歴（準備中）", "#" %></li>
-</ul>
+    <!-- 重要カード（あるときだけ表示） -->
+    <% if @highlight.present? %>
+      <div class="highlight">
+        <div class="icon"><i class="fa-solid <%= @highlight[:icon] %>"></i></div>
+        <div class="text">
+          <p class="title"><%= @highlight[:title] %></p>
+          <% if @highlight[:subtitle] %>
+            <p class="sub"><%= @highlight[:subtitle] %></p>
+          <% end %>
+        </div>
+        <% if @highlight[:badge] %>
+          <div class="badge"><%= @highlight[:badge] %></div>
+        <% end %>
+        <%= link_to @highlight[:path], class: "cta" do %>
+          詳細 <i class="fa-solid fa-chevron-right"></i>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="empty">
+        現在、期限が近いお知らせはありません。
+      </div>
+    <% end %>
+  </section>
 
-<p style="margin-top:1rem;">
-  <%= link_to "ログアウト", destroy_user_session_path, data: { turbo_method: :delete } %>
-</p>
+  <!-- ここに将来用のセクションを足せます -->
+</div>

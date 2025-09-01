@@ -10,4 +10,11 @@ class User < ApplicationRecord
   has_many :notifications, dependent: :destroy
   has_many :notice_reads, dependent: :destroy
   has_many :read_notices, through: :notice_reads, source: :notice
+  has_many :guardianships, dependent: :destroy
+  has_many :children, through: :guardianships
+
+  # 日本語表示用ヘルパー
+  def role_i18n
+    I18n.t("activerecord.attributes.user.roles.#{role}", default: role)
+  end
 end

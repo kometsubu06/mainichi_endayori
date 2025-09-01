@@ -2,32 +2,95 @@
 <html>
   <head>
     <title>まいにち園だより</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-    <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
 
+    <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
   </head>
 
-  <body>
-    <header>
-    <% if user_signed_in? %>
-      <small>ログイン中：<%= current_user.name.presence || current_user.email %></small>
-      <%= button_to "ログアウト", destroy_user_session_path, method: :delete %>
-    <% else %>
-      <%= link_to "ログイン", new_user_session_path %>
-    <% end %>
-  </header>
-  <nav style="display:flex;gap:1rem;align-items:center;margin-bottom:1rem;">
-  <% if user_signed_in? %>
-    <%= link_to '通知', notifications_path %>
-    <span id="notification-bell">🔔
-      <span id="notification-count"><%= current_user.notifications.unread.count %></span>
-    </span>
-  <% end %>
-</nav>
-    <%= yield %>
+  <body class="bg-slate-50 text-slate-900 antialiased">
+    <!-- ヘッダー -->
+    <header class="sticky top-0 z-20 bg-white/90 backdrop-blur border-b border-slate-200">
+      <div class="mx-auto w-full max-w-[72rem] px-4 py-3 flex items-center justify-between">
+        <div class="leading-tight">
+          <div class="text-base md:text-lg font-semibold tracking-tight">
+            <%= current_user&.organization&.name || "園" %>
+          </div>
+          <% if user_signed_in? %>
+            <div class="text-[12px] text-slate-600">
+              ログイン中：<%= current_user.name.presence || current_user.email %>
+            </div>
+          <% end %>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <% if user_signed_in? %>
+            <% if current_user.respond_to?(:notifications) %>
+              <%= link_to notifications_path, class: "relative rounded-lg p-2 text-slate-700 hover:bg-slate-100" do %>
+                <i class="fa-solid fa-bell"></i>
+                <% count = (current_user.notifications.unread.count rescue 0) %>
+                <% if count.positive? %>
+                  <span class="absolute -top-1 -right-1 inline-flex items-center justify-center text-[10px] w-5 h-5 rounded-full bg-rose-600 text-white"><%= count %></span>
+                <% end %>
+              <% end %>
+            <% end %>
+            <%= button_to "ログアウト", destroy_user_session_path,
+                  method: :delete,
+                  class: "hidden sm:inline-flex px-3 py-1.5 text-sm rounded-lg bg-slate-900 text-white hover:bg-black" %>
+          <% else %>
+            <%= link_to "ログイン", new_user_session_path,
+                  class: "px-3 py-1.5 text-sm rounded-lg border border-slate-300 text-slate-800 hover:bg-slate-100" %>
+            <%= link_to "新規登録", invite_path,
+                  class: "px-3 py-1.5 text-sm rounded-lg bg-sky-600 text-white hover:bg-sky-700" %>
+          <% end %>
+        </div>
+      </div>
+    </header>
+
+    <!-- フラッシュ -->
+    <div class="mx-auto w-full max-w-[72rem] px-4 mt-3 space-y-2">
+      <% flash.each do |type, msg| %>
+        <% next if msg.blank? %>
+        <% color = { notice: "bg-emerald-50 text-emerald-800 border-emerald-200",
+                     alert:  "bg-rose-50 text-rose-800 border-rose-200" }[type.to_sym] || "bg-slate-50 text-slate-800 border-slate-200" %>
+        <div class="border rounded-lg px-3 py-2 text-sm <%= color %>"><%= msg %></div>
+      <% end %>
+    </div>
+
+    <!-- 本文：ここが無いと全ページフッターだけになります -->
+    <main class="mx-auto w-full max-w-[42rem] md:max-w-[72rem] px-4 py-5 pb-28">
+      <%= yield %>
+    </main>
+
+    <!-- 固定フッター -->
+    <nav class="footer">
+      <ul class="footer-nav">
+        <li>
+          <%= link_to root_path do %>
+            <i class="fa-solid fa-house"></i><span>ホーム</span>
+          <% end %>
+        </li>
+        <li>
+          <%= link_to notices_path do %>
+            <i class="fa-solid fa-bullhorn"></i><span>お知らせ</span>
+          <% end %>
+        </li>
+        <li>
+          <%= link_to submissions_path do %>
+            <i class="fa-solid fa-file-lines"></i><span>提出物</span>
+          <% end %>
+        </li>
+        <li class="disabled">
+          <a href="javascript:void(0)">
+            <i class="fa-solid fa-heart-pulse"></i><span>体調</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
   </body>
 </html>

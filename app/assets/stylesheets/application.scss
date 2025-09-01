@@ -1,0 +1,10 @@
+@import "tokens";
+@import "components";
+//@import "forms";
+@import "home";
+@import "layout";
+
+/* ページ全体の基本 */
+body {
+  font-feature-settings: "palt";
+}

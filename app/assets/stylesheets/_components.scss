@@ -1,0 +1,21 @@
+.btn {
+  display: inline-flex; align-items: center; gap: .5rem;
+  padding: .5rem .875rem; border-radius: var(--radius);
+  font-weight: 600; text-decoration: none; box-shadow: var(--shadow);
+  &--primary { background: var(--c-prim); color: #fff; }
+  &--primary:hover { background: var(--c-acc1); }
+  &--ghost { background: #fff; color: var(--c-prim); border: 1px solid #e2e8f0; }
+}
+
+.card {
+  background: #fff; border: 1px solid #e2e8f0;
+  border-radius: var(--radius); box-shadow: var(--shadow);
+  padding: var(--space-4);
+}
+
+.badge {
+  display:inline-block; padding:.15rem .45rem; font-size:.7rem; font-weight:700;
+  border-radius:999px; border:1px solid currentColor;
+  &--unread { color:#be123c; }           /* 既読バッジ */
+  &--warn   { color: var(--c-badge-warn); } /* 未提出バッジ */
+}
