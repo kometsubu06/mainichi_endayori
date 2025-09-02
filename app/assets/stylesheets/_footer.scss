@@ -1,0 +1,50 @@
+/* 固定ボトムナビ：既存 <nav class="footer"> をそのまま強化 */
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 72rem; /* application.html.erb のヘッダー幅に合わせる */
+  background: rgba(255,255,255,0.95);
+  -webkit-backdrop-filter: saturate(180%) blur(8px);
+  backdrop-filter: saturate(180%) blur(8px);
+  border-top: 1px solid #e2e8f0; /* slate-200 */
+  z-index: 30;
+}
+
+.footer-nav {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  margin: 0;
+  padding: 6px 8px calc(6px + env(safe-area-inset-bottom)); /* iOS Safe Area */
+  list-style: none;
+  gap: 4px;
+}
+
+.footer-nav li a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 8px 4px;
+  font-size: 11px;
+  color: #64748b; /* slate-500 */
+  text-decoration: none;
+  border-radius: 10px;
+}
+
+.footer-nav li a i { font-size: 18px; }
+
+.footer-nav li a:hover { background: #f1f5f9; } /* slate-100 */
+
+/* active / disabled（後述のヘルパで active を付与） */
+.footer-nav li.active a {
+  color: #0ea5e9; /* sky-500 */
+  background: #e0f2fe; /* sky-100 */
+  font-weight: 600;
+}
+.footer-nav li.disabled a {
+  opacity: 0.45;
+  pointer-events: none;
+}

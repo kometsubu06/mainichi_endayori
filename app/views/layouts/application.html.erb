@@ -39,9 +39,24 @@
                 <% end %>
               <% end %>
             <% end %>
+            <%# ▼ 管理者専用の新規作成ボタン ▼ %>
+            <% if current_user.respond_to?(:admin?) && current_user.admin? %>
+              <%= link_to new_admin_notice_path,
+                    class: "hidden sm:inline-flex px-3 py-1.5 text-sm rounded-lg bg-sky-600 text-white hover:bg-sky-700" do %>
+                <i class="fa-solid fa-bullhorn mr-1"></i> お知らせ作成
+              <% end %>
+              <%= link_to admin_notices_path,
+                class: "hidden sm:inline-flex px-3 py-1.5 text-sm rounded-lg bg-sky-600 text-white hover:bg-indigo-700" do %>
+                <i class="fa-solid fa-gear mr-1"></i> お知らせ管理
+               <% end %>
+              <%= link_to new_admin_submission_request_path,
+                    class: "hidden sm:inline-flex px-3 py-1.5 text-sm rounded-lg bg-sky-600 text-white hover:bg-emerald-700" do %>
+                <i class="fa-solid fa-file-circle-plus mr-1"></i> 提出依頼作成
+              <% end %>
+            <% end %>
             <%= button_to "ログアウト", destroy_user_session_path,
                   method: :delete,
-                  class: "hidden sm:inline-flex px-3 py-1.5 text-sm rounded-lg bg-slate-900 text-white hover:bg-black" %>
+                  class: "hidden sm:inline-flex px-3 py-1.5 text-sm rounded-lg bg-sky-600 text-white hover:bg-black" %>
           <% else %>
             <%= link_to "ログイン", new_user_session_path,
                   class: "px-3 py-1.5 text-sm rounded-lg border border-slate-300 text-slate-800 hover:bg-slate-100" %>
@@ -70,23 +85,23 @@
     <!-- 固定フッター -->
     <nav class="footer">
       <ul class="footer-nav">
-        <li>
-          <%= link_to root_path do %>
+        <li class="<%= nav_active_class(root_path) %>">
+          <%= link_to root_path, aria: { label: 'ホーム', current: (current_page?(root_path) ? 'page' : nil) } do %>
             <i class="fa-solid fa-house"></i><span>ホーム</span>
           <% end %>
         </li>
-        <li>
-          <%= link_to notices_path do %>
+        <li class="<%= nav_active_class(notices_path) %>">
+          <%= link_to notices_path, aria: { label: 'お知らせ', current: (current_page?(notices_path) ? 'page' : nil) } do %>
             <i class="fa-solid fa-bullhorn"></i><span>お知らせ</span>
           <% end %>
         </li>
-        <li>
-          <%= link_to submissions_path do %>
+        <li class="<%= nav_active_class(submissions_path) %>">
+          <%= link_to submissions_path, aria: { label: '提出物', current: (current_page?(submissions_path) ? 'page' : nil) } do %>
             <i class="fa-solid fa-file-lines"></i><span>提出物</span>
           <% end %>
         </li>
         <li class="disabled">
-          <a href="javascript:void(0)">
+          <a href="javascript:void(0)" aria-disabled="true">
             <i class="fa-solid fa-heart-pulse"></i><span>体調</span>
           </a>
         </li>

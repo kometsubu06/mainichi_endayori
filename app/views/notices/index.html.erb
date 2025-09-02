@@ -1,25 +1,24 @@
-<!-- app/views/notices/index.html.erb -->
-<h1>お知らせ</h1>
+<div class="space-y-4">
+  <div class="flex items-baseline justify-between">
+    <h1 class="text-lg font-semibold">お知らせ</h1>
+    <%# フィルタ（全件 / 未読） %>
+    <div class="inline-flex rounded-lg border border-slate-200 overflow-hidden">
+      <%= link_to "全て",
+          notices_path,
+          class: "px-3 py-1.5 text-sm #{params[:filter].blank? ? 'bg-slate-100 text-slate-900' : 'text-slate-700 hover:bg-slate-50'}" %>
+      <%= link_to "未読のみ",
+          notices_path(filter: 'unread'),
+          class: "px-3 py-1.5 text-sm #{params[:filter] == 'unread' ? 'bg-slate-100 text-slate-900' : 'text-slate-700 hover:bg-slate-50'}" %>
+    </div>
+  </div>
 
-<% if @notices.empty? %>
-  <p>現在表示できるお知らせはありません。</p>
-<% else %>
-  <ul>
-    <% @notices.each do |n| %>
-      <% unread = !@read_ids.include?(n.id) %>
-      <li style="margin:.5rem 0;">
-        <%= render 'notices/badge', notice: n, unread: unread %>
-
-        <%= link_to n.title, notice_path(n) %>
-
-        <% if n.due_on %>
-          <small>（締切: <%= n.due_on %>）</small>
-        <% end %>
-
-        <% if n.require_submission %>
-          <span style="padding:.1rem .4rem;border:1px solid #999;border-radius:.4rem;font-size:.8em;margin-left:.4rem;">提出あり</span>
-        <% end %>
-      </li>
-    <% end %>
-  </ul>
-<% end %>
+  <% if @notices.present? %>
+    <div class="space-y-2">
+      <%= render partial: "notice_row", collection: @notices, as: :notice %>
+    </div>
+  <% else %>
+    <div class="border rounded-xl bg-white p-6 text-center text-slate-600">
+      表示できるお知らせがありません。
+    </div>
+  <% end %>
+</div>

@@ -1,10 +1,51 @@
 <!-- app/views/admin/notices/_form.html.erb -->
-<%= form_with model: [:admin, @notice] do |f| %>
-  <p>タイトル<br><%= f.text_field :title %></p>
-  <p>本文<br><%= f.text_area :body, rows: 8 %></p>
-  <p>締切<br><%= f.date_field :due_on %></p>
-  <p>提出の要否<br><%= f.check_box :require_submission %></p>
-  <p>掲載日時<br><%= f.datetime_field :published_at %></p>
-  <p>ステータス<br><%= f.select :status, [[ '公開', 0 ], [ '非公開', 1 ]] %></p>
-  <p><%= f.submit %></p>
+<%= form_with model: [:admin, @notice], class: "space-y-4" do |f| %>
+  <div>
+    <label class="block text-sm mb-1">タイトル</label>
+    <%= f.text_field :title, class: "w-full rounded border px-3 py-2" %>
+  </div>
+
+  <div>
+    <label class="block text-sm mb-1">本文</label>
+    <%= f.text_area :body, rows: 8, class: "w-full rounded border px-3 py-2" %>
+  </div>
+
+  <div>
+    <label class="block text-sm mb-1">締切（任意）</label>
+    <%= f.date_field :due_on, class: "rounded border px-3 py-2" %>
+  </div>
+
+  <div>
+    <label class="block text-sm mb-1">画像（複数可）</label>
+    <%= f.file_field :images, multiple: true, accept: "image/*",
+          class: "block w-full text-sm file:mr-3 file:px-3 file:py-1.5 file:rounded-lg file:border file:border-slate-300 file:bg-white file:text-slate-800 hover:file:bg-slate-50" %>
+
+    <% if @notice.images.attached? %>
+      <div class="mt-3 grid grid-cols-3 gap-2">
+        <% @notice.images.each do |img| %>
+          <label class="block">
+            <%= image_tag img.variant(resize_to_fill: [300, 180]).processed,
+                  class: "w-full h-[120px] object-cover rounded-lg border mb-1" %>
+            <%= check_box_tag "remove_image_ids[]", img.id, false %>
+            <span class="text-xs text-slate-600">この画像を削除</span>
+          </label>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+  <div class="flex items-center gap-2 pt-2">
+    <%# 下書き保存ボタン %>
+    <%= f.submit '下書き保存',
+          class: "px-3 py-1.5 text-sm rounded-lg border border-slate-300 text-slate-800 hover:bg-slate-100" %>
+
+    <%# 公開ボタン %>
+    <%= f.submit '公開する',
+          class: "px-3 py-1.5 text-sm rounded-lg bg-sky-600 text-white hover:bg-sky-700" %>
+
+    <% if @notice.persisted? && @notice.published? %>
+      <span class="text-xs text-emerald-700 ml-2">公開中（<%= l(@notice.published_at, format: :short) %>）</span>
+    <% elsif @notice.persisted? %>
+      <span class="text-xs text-slate-600 ml-2">下書き</span>
+    <% end %>
+  </div>
 <% end %>

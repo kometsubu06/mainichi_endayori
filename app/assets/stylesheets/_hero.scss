@@ -1,0 +1,21 @@
+.hero-card {
+  position: relative;
+  background-image: image-url("hero-bg.jpg"); /* assets/images/hero-bg.jpg */
+  background-size: cover;
+  background-position: center;
+  border-radius: 0.75rem; /* Tailwind rounded-xl 相当 */
+  padding: 1.5rem;
+  color: #fff; /* 文字色は白にするのが無難 */
+}
+
+.hero-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.25); /* 文字が見やすいよう半透明の黒フィルター */
+  border-radius: 0.75rem;
+}
+
+.hero-card > * {
+  position: relative; /* 子要素はフィルターの上に */
+}

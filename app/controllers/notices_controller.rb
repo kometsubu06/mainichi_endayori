@@ -3,10 +3,9 @@ class NoticesController < ApplicationController
   require 'set'
   def index
     base = Notice.where(organization_id: current_user.organization_id)
-                 .order(due_on: :asc) # 並び替えはあなたの既存ロジックに合わせてOK
-    # もし enum で公開状態があるなら:
-    base = base.published if Notice.respond_to?(:statuses) && Notice.statuses.key?('published')
-
+                 .visible_to_guardian
+                 .order(due_on: :asc) 
+    
     @notices =
       if params[:filter] == 'unread'
         base.where.not(id: NoticeRead.where(user_id: current_user.id).select(:notice_id))
@@ -21,7 +20,7 @@ class NoticesController < ApplicationController
   end
 
   def show
-    @notice = Notice.where(organization_id: current_user.organization_id).find(params[:id])
+    @notice = Notice.where(organization_id: current_user.organization_id).visible_to_guardian.find(params[:id])
 
   # 既読レコードを作成（なければ）
     nr = NoticeRead.find_or_create_by(user_id: current_user.id, notice_id: @notice.id) do |r|
@@ -40,5 +39,7 @@ class NoticesController < ApplicationController
     end
 
     @unread = false
+  rescue ActiveRecord::RecordNotFound
+    redirect_to notices_path, alert: "このお知らせは見つからないか、まだ公開されていません。"
   end
 end

@@ -6,7 +6,7 @@
   <li>締切: <%= @notice.due_on || "-" %></li>
   <li>提出の要否: <%= @notice.require_submission ? "必要" : "不要" %></li>
   <li>掲載日時: <%= @notice.published_at&.strftime("%Y/%m/%d %H:%M") || "-" %></li>
-  <li>ステータス: <%= @notice.status %></li>
+  <li>ステータス: <%= @notice.status_label %></li>
 </ul>
 
 <p>

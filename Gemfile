@@ -75,3 +75,4 @@ group :production do
 end
 gem "tailwindcss-rails", "~> 4.3"
 gem "sassc-rails"
+gem "image_processing", "~> 1.2"
