@@ -1,4 +1,4 @@
-class Admin::NoticesController < ApplicationController
+class Admin::NoticesController < Admin::BaseController
   before_action :set_notice, only: [:show, :edit, :update, :destroy]
   def index
     @notices = current_user.organization.notices.order(created_at: :desc)
@@ -63,6 +63,6 @@ class Admin::NoticesController < ApplicationController
   end
 
   def notice_params
-    params.require(:notice).permit(:title, :body, :due_on)
+    params.require(:notice).permit(:title, :body, :due_on, :require_submission, :published_at, images: [])
   end
 end

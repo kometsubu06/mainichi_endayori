@@ -83,29 +83,6 @@
     </main>
 
     <!-- 固定フッター -->
-    <nav class="footer">
-      <ul class="footer-nav">
-        <li class="<%= nav_active_class(root_path) %>">
-          <%= link_to root_path, aria: { label: 'ホーム', current: (current_page?(root_path) ? 'page' : nil) } do %>
-            <i class="fa-solid fa-house"></i><span>ホーム</span>
-          <% end %>
-        </li>
-        <li class="<%= nav_active_class(notices_path) %>">
-          <%= link_to notices_path, aria: { label: 'お知らせ', current: (current_page?(notices_path) ? 'page' : nil) } do %>
-            <i class="fa-solid fa-bullhorn"></i><span>お知らせ</span>
-          <% end %>
-        </li>
-        <li class="<%= nav_active_class(submissions_path) %>">
-          <%= link_to submissions_path, aria: { label: '提出物', current: (current_page?(submissions_path) ? 'page' : nil) } do %>
-            <i class="fa-solid fa-file-lines"></i><span>提出物</span>
-          <% end %>
-        </li>
-        <li class="disabled">
-          <a href="javascript:void(0)" aria-disabled="true">
-            <i class="fa-solid fa-heart-pulse"></i><span>体調</span>
-          </a>
-        </li>
-      </ul>
-    </nav>
+    <%= render "shared/footer" %>
   </body>
 </html>

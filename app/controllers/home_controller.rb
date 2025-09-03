@@ -24,7 +24,8 @@ class HomeController < ApplicationController
       end
 
     # 2) 重要お知らせ：締切付き（7日以内）を優先、なければ締切付きすべて
-    notices_base = Notice.where(organization_id: org_id).visible_to_guardian
+    notices_base = Notice.visible_to_guardian.where(organization_id: org_id)
+    @read_ids = NoticeRead.where(user_id: current_user.id).pluck(:notice_id).to_set
     with_due_soon = notices_base.where.not(due_on: nil)
                                 .where(due_on: Date.current..(Date.current + 7))
                                 .order(:due_on, :id)

@@ -1,4 +1,4 @@
-class Admin::SubmissionRequestsController < ApplicationController
+class Admin::SubmissionRequestsController < Admin::BaseController
   before_action :set_request, only: [:show, :edit, :update, :destroy]
   def index
     @requests = current_user.organization.submission_requests.order(due_on: :asc, id: :desc)

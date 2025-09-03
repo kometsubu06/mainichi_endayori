@@ -1,4 +1,4 @@
-class Admin::DashboardController < ApplicationController
+class Admin::DashboardController < Admin::BaseController
   def show
     @org = current_user.organization
     @notices_count = @org.notices.count

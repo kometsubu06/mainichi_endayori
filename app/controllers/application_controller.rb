@@ -16,4 +16,7 @@ class ApplicationController < ActionController::Base
       username == ENV["BASIC_AUTH_USER"] && password == ENV["BASIC_AUTH_PASSWORD"]
     end
   end
+  def redirect_home_not_found
+    redirect_to root_path, alert: "ページが見つかりませんでした。", status: :see_other
+  end
 end

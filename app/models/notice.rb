@@ -25,7 +25,7 @@ class Notice < ApplicationRecord
   end
 
   validates :title, presence: true
-  def status_label
+  def states_label
     return "下書き" if published_at.nil?
     return "予約公開" if published_at > Time.current
     "公開中"
