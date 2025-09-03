@@ -1,0 +1,33 @@
+<article class="border rounded-xl p-4 bg-white relative">
+  <div class="flex items-start gap-3">
+    <i class="fa-solid fa-file-lines text-emerald-600 mt-0.5"></i>
+    <div class="flex-1 min-w-0">
+      <h3 class="font-medium text-slate-900"><%= submission_request.title %></h3>
+      <p class="text-sm text-slate-600">
+        <%= truncate(strip_tags(submission_request.description.to_s), length: 80) %>
+      </p>
+      <div class="mt-2 flex items-center gap-2 text-xs text-slate-500">
+        <% if submission_request.respond_to?(:due_at) && submission_request.deadline_at.present? %>
+          <span class="inline-flex items-center rounded-full px-2 py-0.5 bg-amber-50 text-amber-700 border border-amber-200">
+            締切 <%= l(submission_request.due_at, format: :short) %>
+          </span>
+        <% end %>
+        <% if submission_request.respond_to?(:done_for?) && user_signed_in? && submission_request.done_for?(current_user) %>
+          <span class="inline-flex items-center rounded-full px-2 py-0.5 bg-emerald-50 text-emerald-700 border border-emerald-200">提出済み</span>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-3">
+    <% if submission_request.respond_to?(:done_for?) && user_signed_in? && submission_request.done_for?(current_user) %>
+      <!-- 何もしない（バッジのみ） -->
+    <% else %>
+      <%= button_to '提出済みにする',
+            mark_done_submission_request_path(submission_request),
+            method: :post,
+            class: 'w-full py-2 rounded-lg bg-sky-600 text-white hover:bg-sky-700',
+            data: { turbo_confirm: '提出済みにしますか？' } %>
+    <% end %>
+  </div>
+</article>

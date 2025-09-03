@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: one
+  action: MyString
+  notice_id: 
+  occurred_at: 2025-08-28 12:07:08
+  metadata: 
+
+two:
+  user: two
+  action: MyString
+  notice_id: 
+  occurred_at: 2025-08-28 12:07:08
+  metadata: 

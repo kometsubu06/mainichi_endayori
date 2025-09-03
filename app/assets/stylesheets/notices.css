@@ -1,0 +1,7 @@
+/* app/assets/stylesheets/notices.css (任意) */
+.badge { padding: .15rem .5rem; border-radius: .5rem; font-size: .85rem; }
+.badge--unread { background: #fce7e7; color: #b10000; }
+.badge--read   { background: #eef6ff; color: #004a99; }
+.table { width: 100%; border-collapse: collapse; }
+.table th, .table td { padding: .5rem; border-bottom: 1px solid #eee; }
+.is-active { font-weight: bold; text-decoration: underline; }

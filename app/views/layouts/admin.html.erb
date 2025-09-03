@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Admin - まいにち園だより</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <%= csrf_meta_tags %><%= csp_meta_tag %>
+    <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <link rel="stylesheet"
++          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+    <%= javascript_importmap_tags %>
+  </head>
+  <body class="bg-slate-50 text-slate-900 antialiased">
+    <%= render "admin/shared/header" %>
+    <main class="mx-auto max-w-[72rem] px-4 py-6 pb-28">
+      <%= yield %>
+    </main>
+    <%= render "shared/footer" %>
+  </body>
+</html>

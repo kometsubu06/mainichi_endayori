@@ -1,0 +1,24 @@
+<div class="space-y-4">
+  <div class="flex items-baseline justify-between">
+    <h1 class="text-lg font-semibold">お知らせ</h1>
+    <%# フィルタ（全件 / 未読） %>
+    <div class="inline-flex rounded-lg border border-slate-200 overflow-hidden">
+      <%= link_to "全て",
+          notices_path,
+          class: "px-3 py-1.5 text-sm #{params[:filter].blank? ? 'bg-slate-100 text-slate-900' : 'text-slate-700 hover:bg-slate-50'}" %>
+      <%= link_to "未読のみ",
+          notices_path(filter: 'unread'),
+          class: "px-3 py-1.5 text-sm #{params[:filter] == 'unread' ? 'bg-slate-100 text-slate-900' : 'text-slate-700 hover:bg-slate-50'}" %>
+    </div>
+  </div>
+
+  <% if @notices.present? %>
+    <div class="space-y-2">
+      <%= render partial: "notice_row", collection: @notices, as: :notice %>
+    </div>
+  <% else %>
+    <div class="border rounded-xl bg-white p-6 text-center text-slate-600">
+      表示できるお知らせがありません。
+    </div>
+  <% end %>
+</div>

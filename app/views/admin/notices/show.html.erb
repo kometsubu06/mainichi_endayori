@@ -1,0 +1,16 @@
+<h1><%= @notice.title %></h1>
+
+<p><%= render "shared/notice_body_card", notice: @notice, show_submission_badge: true, show_status: true %></p>
+
+<ul>
+  <li>締切: <%= @notice.due_on || "-" %></li>
+  <li>提出の要否: <%= @notice.require_submission ? "必要" : "不要" %></li>
+  <li>掲載日時: <%= @notice.published_at&.strftime("%Y/%m/%d %H:%M") || "-" %></li>
+  <li>ステータス: <%= @notice.states_label %></li>
+</ul>
+
+<p>
+  <%= link_to "一覧に戻る", admin_notices_path %> |
+  <%= link_to "編集", edit_admin_notice_path(@notice) %> |
+  <%= link_to "削除", admin_notice_path(@notice), data: { turbo_method: :delete, confirm: "削除しますか？" } %>
+</p>

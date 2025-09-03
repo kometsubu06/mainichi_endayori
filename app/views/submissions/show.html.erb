@@ -1,0 +1,24 @@
+<!-- app/views/submissions/show.html.erb -->
+<p><%= link_to "← 提出依頼一覧へ", submissions_path %></p>
+<h1><%= @request.title %></h1>
+<p><%= simple_format(@request.description) %></p>
+<p style="margin-top:1rem;">
+  <% if @request.due_on %>締切：<%= @request.due_on %><br><% end %>
+</p>
+
+<div id="submission-flash" style="margin:.5rem 0;color:#090;"></div>
+
+<% unless @my_done %>
+  <% if @children_ids.many? %>
+    <!-- 複数子家庭向け：簡易 child_id 選択（フロント仕上げ前の最小UI） -->
+    <%= form_with url: mark_done_submission_path(@request), method: :post do |f| %>
+      <label>お子さま：</label>
+      <%= select_tag :child_id, options_from_collection_for_select(current_user.children, :id, :name), include_blank: '選択してください' %>
+      <%= f.submit '提出済みにする' %>
+    <% end %>
+  <% else %>
+    <%= button_to '提出済みにする', mark_done_submission_path(@request), method: :post %>
+  <% end %>
+<% else %>
+  <p style="color:#666;">この依頼は提出済みです。</p>
+<% end %>

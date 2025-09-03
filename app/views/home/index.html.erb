@@ -1,12 +1,77 @@
-<!-- app/views/home/index.html.erb -->
-<h1>ようこそ、<%= current_user&.email %> さん</h1>
+<div class="dashboard space-y-6">
+  <!-- ヒーロー（上の箱） -->
+  <section class="hero-card relative rounded-xl p-6 text-white"
+         style="background-image: url('<%= image_path("hero-bg.jpeg") %>');
+                background-size: cover; background-position: center;">
+    <div class="text-center">
+      <div class="school"><%= current_user&.organization&.name || "園" %></div>
+      <div class="who">
+        こんにちは、<%= current_user.name.presence || current_user.email %> さん
+      </div>
+    </div>
 
-<ul>
-  <li><%= link_to "お知らせ一覧（準備中）", "#" %></li>
-  <li><%= link_to "当日チェック（準備中）", "#" %></li>
-  <li><%= link_to "履歴（準備中）", "#" %></li>
-</ul>
+    <!-- 重要カード（あるときだけ表示） -->
+    <% if @highlight.present? %>
+      <div class="highlight">
+        <div class="icon"><i class="fa-solid <%= @highlight[:icon] %>"></i></div>
+        <div class="text">
+          <p class="title"><%= @highlight[:title] %></p>
+          <% if @highlight[:subtitle] %>
+            <p class="sub"><%= @highlight[:subtitle] %></p>
+          <% end %>
+        </div>
+        <% if @highlight[:badge] %>
+          <div class="badge"><%= @highlight[:badge] %></div>
+        <% end %>
+        <%= link_to @highlight[:path], class: "cta" do %>
+          詳細 <i class="fa-solid fa-chevron-right"></i>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="empty">
+        現在、期限が近いお知らせはありません。
+      </div>
+    <% end %>
+  </section>
 
-<p style="margin-top:1rem;">
-  <%= link_to "ログアウト", destroy_user_session_path, data: { turbo_method: :delete } %>
-</p>
+  <% if (@urgent_submissions.present? || @important_notices.present?) %>
+    <section class="priority space-y-3">
+      <h2 class="text-base font-semibold text-slate-800">大事なお知らせ・提出期限が近いもの</h2>
+      <div class="grid gap-3">
+        <%= render @urgent_submissions if defined?(@urgent_submissions) && @urgent_submissions.present? %>
+        <%= render @important_notices if defined?(@important_notices) && @important_notices.present? %>
+      </div>
+    </section>
+  <% end %>
+
+  <section class="latest space-y-3">
+  <div class="flex items-center justify-between">
+    <h2 class="text-base font-semibold text-slate-800">最新のお知らせ</h2>
+    <%= link_to '一覧へ', notices_path, class: 'text-sm text-sky-700 hover:underline' %>
+  </div>
+
+  <% if defined?(@recent_notices) && @recent_notices.present? %>
+    <ul class="divide-y divide-slate-200 bg-white rounded-lg border border-slate-200 overflow-hidden">
+      <% @recent_notices.each do |n| %>
+        <li class="px-3 py-2">
+          <%= link_to notice_path(n), class: "flex items-baseline justify-between gap-3 hover:underline" do %>
+            <div class="flex items-center gap-2">
+              <span class="truncate font-medium text-slate-900"><%= n.title %></span>
+              <% if current_user.guardian? && !@read_ids.include?(n.id) %>
+              <span class="inline-flex items-center rounded-full px-2 py-0.5 bg-rose-600 text-white text-[10px]">未読</span>
+              <% end %>
+            </div>
+            <span class="shrink-0 text-xs text-slate-500">
+              <%= ((n.published_at || n.created_at).in_time_zone).strftime("%-m月%-d日 %H:%M") %>
+            </span>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  <% else %>
+    <div class="text-slate-500 text-sm">いま表示できるお知らせはありません。</div>
+  <% end %>
+</section>
+
+  <!-- ここに将来用のセクションを足せます -->
+</div>

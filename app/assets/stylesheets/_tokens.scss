@@ -1,0 +1,16 @@
+:root {
+  --c-bg:    #f8fafc;
+  --c-text:  #0f172a;
+  --c-muted: #64748b;
+  --c-prim:  #0369a1; /* ブランドブルー */
+  --c-acc1:  #0284c7; /* ボタンhover 等 */
+  --c-badge-warn: #b45309;
+  --radius:  12px;
+  --shadow:  0 1px 2px rgba(0,0,0,.05), 0 8px 24px rgba(0,0,0,.06);
+}
+
+/* タイポ・余白スケール */
+:root {
+  --space-1: .25rem; --space-2: .5rem; --space-3: .75rem;
+  --space-4: 1rem;  --space-6: 1.5rem; --space-8: 2rem;
+}

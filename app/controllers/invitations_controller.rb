@@ -1,4 +1,6 @@
 class InvitationsController < ApplicationController
+  skip_before_action :authenticate_user!, only: [:new, :create]
+  # 既にログインしているならホームへ
   before_action :redirect_if_signed_in, only: [:new, :create]
 
   def new

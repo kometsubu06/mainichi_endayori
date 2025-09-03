@@ -1,0 +1,8 @@
+ja:
+  activerecord:
+    attributes:
+      user:
+        roles:
+          guardian: 保護者
+          teacher: 職員
+          admin: 管理者

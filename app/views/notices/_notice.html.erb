@@ -1,0 +1,24 @@
+<article class="border rounded-xl p-4 bg-white relative">
+  <div class="flex items-start gap-3">
+    <i class="fa-solid fa-bullhorn text-sky-600 mt-0.5"></i>
+    <div class="flex-1 min-w-0">
+      <h3 class="font-medium text-slate-900 truncate"><%= notice.title %></h3>
+      <%# 概要または本文先頭を2行まで %>
+      <p class="text-sm text-slate-600">
+        <%= truncate((notice.respond_to?(:summary) && notice.summary.presence) || strip_tags(notice.body.to_s), length: 80) %>
+      </p>
+      <div class="mt-2 flex items-center gap-2 text-xs text-slate-500">
+        <span><%= l(notice.try(:published_at) || notice.created_at, format: :short) %></span>
+        <% if notice.respond_to?(:due_at) && notice.deadline_at.present? %>
+          <span class="inline-flex items-center rounded-full px-2 py-0.5 bg-amber-50 text-amber-700 border border-amber-200">
+            締切 <%= l(notice.due_at, format: :short) %>
+          </span>
+        <% end %>
+        <% if notice.respond_to?(:unread_for?) && user_signed_in? && notice.unread_for?(current_user) %>
+          <span class="inline-flex items-center rounded-full px-2 py-0.5 bg-rose-600 text-white">未読</span>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <%= link_to '', notice_path(notice), class: 'absolute inset-0', aria: { label: '詳細へ' } %>
+</article>

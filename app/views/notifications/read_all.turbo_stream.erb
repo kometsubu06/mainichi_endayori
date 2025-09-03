@@ -1,0 +1,5 @@
+<!-- app/views/notifications/read_all.turbo_stream.erb -->
+<%= turbo_stream.update 'notifications-list' do %>
+  <%= render partial: 'notifications/item', collection: @notifications, as: :notification %>
+<% end %>
+<%= turbo_stream.update 'notification-count', 0 %>

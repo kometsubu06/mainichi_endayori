@@ -1,0 +1,25 @@
+<header class="sticky top-0 z-30 bg-white/90 backdrop-blur border-b border-slate-200">
+  <div class="mx-auto w-full max-w-[72rem] px-4 h-12 flex items-center justify-between">
+    <div class="text-sm font-semibold text-slate-800">管理ダッシュボード</div>
+
+    <% if admin_user? %>
+      <div class="flex items-center gap-2">
+        <%= link_to new_admin_notice_path,
+            class: "px-3 py-1.5 text-sm rounded-lg bg-sky-600 text-white hover:bg-sky-700" do %>
+          <i class="fa-solid fa-bullhorn mr-1"></i> お知らせ作成
+        <% end %>
+        <%= link_to admin_notices_path,
+              class: "px-3 py-1.5 text-sm rounded-lg bg-sky-600 text-white hover:bg-slate-100" do %>
+           <i class="fa-solid fa-gear mr-1"></i> お知らせ管理
+        <% end %>
+        <%= link_to new_admin_submission_request_path,
+            class: "px-3 py-1.5 text-sm rounded-lg bg-sky-600 text-white hover:bg-emerald-700" do %>
+          <i class="fa-solid fa-file-circle-plus mr-1"></i> 提出依頼作成
+        <% end %>
+        <%= button_to "ログアウト", destroy_user_session_path,
+              method: :delete,
+              class: "px-3 py-1.5 text-sm rounded-lg bg-sky-600 text-white hover:bg-black" %>
+      </div>
+    <% end %>
+  </div>
+</header>
