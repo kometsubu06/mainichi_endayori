@@ -1,5 +1,5 @@
 class Guardianship < ApplicationRecord
-  belongs_to :user
+  belongs_to :guardian, class_name: "user", foreign_key: :user_id
   belongs_to :child
-  validates :user_id, uniqueness: { scope: :child_id }
+  validates :child_id, uniqueness: { scope: :user_id }
 end
