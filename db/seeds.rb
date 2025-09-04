@@ -19,4 +19,6 @@ end
 
 # 子ども & 紐づけ
 child = Child.find_or_create_by!(name: "テスト太郎", organization: org)
-Guardianship.find_or_create_by!(guardian: guardian, child: child)
+Guardianship.find_or_create_by!(user_id: guardian.id, child_id: child.id) do |g|
+  g.relationship = "保護者"
+end
