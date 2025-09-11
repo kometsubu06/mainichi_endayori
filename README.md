@@ -33,15 +33,15 @@ Invitation.create!(code: SecureRandom.hex(6), expires_at: 3.days.from_now)
 ---
 
 ### 本番環境
-本番環境ではRender無料枠を利用しているため、現在デモデータをseeds.rbで入力しています。
-【デモ園】
-【テスト管理者】
- admin@example.com
- password
+本番環境ではRender無料枠を利用しているため、現在デモデータをseeds.rbで入力しています。  
+【デモ園】  
+【テスト管理者】  
+ admin@example.com  
+ password  
 
-【テスト保護者（紐付けでchild：タロウ）】
- guardian@example.com
- password
+【テスト保護者（紐付けでchild：タロウ）】  
+ guardian@example.com  
+ password  
 
 ---
 
